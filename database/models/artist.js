@@ -1,9 +1,9 @@
-// Todo: Create Artist Model
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+
 const AlbumSchema = require('./album');
 
-const Artist = new Schema({
+const ArtistSchema = new Schema({
   name: String,
   age: Number,
   yearsActive: Number,
@@ -16,6 +16,6 @@ const Artist = new Schema({
   Albums: [AlbumSchema]
 });
 
-const ArtistModel = mongoose.model('artist', Artist);
+const Artist = mongoose.model('artist', ArtistSchema);
 
-module.exports = ArtistModel;
+module.exports = Artist;
