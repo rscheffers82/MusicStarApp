@@ -10,26 +10,20 @@ const Artist = require('../models/artist');
  */
 module.exports = (criteria, sortProperty, offset = 0, limit = 20) => {
 
-  return Promise.all([
-    Artist.find( buildQuery(criteria) )
-      .sort({ [sortProperty]: 1 })
-      .skip( offset )
-      .limit( limit ),
-    Artist.count()
-  ])
+  const query = Artist.find( buildQuery(criteria))
+    .sort({ [sortProperty]: 1 })
+    .skip( offset )
+    .limit( limit );
+
+  return Promise.all([query, Artist.count()])
   .then( (results) => {
-    let artists = results[0];
-    let count = results[1];
-    console.log('artists: ', artists);
-    console.log('count: ', count);
     return {
-      all: artists,
-      count: artists.length,
+      all: results[0],
+      count: results[1],
       offset,
       limit
     }
   });
-
 };
 
 const buildQuery = (criteria) => {
